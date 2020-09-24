@@ -20,7 +20,9 @@ public:
   JuliaSet();
   // JuliaSet(std::complex<double> c);
   // JuliaSet(double x, double y);
-  void set_c(double real, double imag);
+  void setC(double real, double imag);
+  void setCReal(double value);
+  void setCImag(double value);
   double pixelValue(int x, int y);
   Matrix<double, width, height> generate();
 };

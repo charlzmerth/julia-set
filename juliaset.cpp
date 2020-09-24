@@ -19,8 +19,16 @@ JuliaSet::JuliaSet() {
 //
 // }
 
-void JuliaSet::set_c(double real, double imag) {
+void JuliaSet::setC(double real, double imag) {
   c = std::complex<double>(real, imag);
+}
+
+void JuliaSet::setCReal(double value) {
+  c.real(value);
+}
+
+void JuliaSet::setCImag(double value) {
+  c.imag(value);
 }
 
 inline double JuliaSet::scaleX(double x) {
@@ -45,7 +53,6 @@ double JuliaSet::pixelValue(int x, int y) {
 }
 
 Matrix<double, JuliaSet::width, JuliaSet::height> JuliaSet::generate() {
-  std::cout << "generating julia set" << std::endl;
   Matrix<double, width, height> result;
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {

@@ -7,17 +7,35 @@
 #include "juliaset.hpp"
 
 class Canvas : public QWidget {
-private slots:
-  void realSliderChanged();
+  Q_OBJECT
+
+// protected slots:
+//   void realSliderChanged();
+//   void imagSliderChanged();
 
 private:
   JuliaSet js;
-  QSlider *realSlider;
 
 public:
   Canvas();
   void renderImage();
+  void setCReal(double value);
+  void setCImag(double value);
+  QSize sizeHint() const override;
 
 protected:
   void paintEvent(QPaintEvent *event) override;
+};
+
+class Window : public QWidget {
+  Q_OBJECT
+
+private:
+  QSlider *realSlider;
+  QSlider *imagSlider;
+  QHBoxLayout *mainLayout;
+  Canvas *canvas;
+
+public:
+  Window();
 };

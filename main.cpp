@@ -5,11 +5,11 @@
 
 int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
-  Canvas c;
+  Window w;
 
-  c.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-  c.setWindowTitle("JuliaSet");
-  c.show();
+  // c.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+  w.setWindowTitle("JuliaSet");
+  w.show();
 
   return app.exec();
 }
