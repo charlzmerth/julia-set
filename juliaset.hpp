@@ -1,20 +1,26 @@
 #pragma once
 
 #include <complex>
+#include "params.hpp"
 #include "matrix.hpp"
 
 class JuliaSet {
 private:
-  const int maxIter {1000};
-  const std::complex<int> c;
-  const double R;
-  const double R2;
-  static const int width {1280};
-  static const int height {720};
-  inline int scale(int x);
+  std::complex<double> c;
+  int maxIter {300};
+  double R;
+  double R2;
+  inline double scaleX(double x);
+  inline double scaleY(double y);
 
 public:
-  JuliaSet(std::complex<double> c);
-  int pixelValue(int x, int y);
-  Matrix<int, width, height> generate();
+  static const int width {CANVAS_WIDTH};
+  static const int height {CANVAS_HEIGHT};
+
+  JuliaSet();
+  // JuliaSet(std::complex<double> c);
+  // JuliaSet(double x, double y);
+  void set_c(double real, double imag);
+  double pixelValue(int x, int y);
+  Matrix<double, width, height> generate();
 };
