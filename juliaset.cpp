@@ -1,26 +1,23 @@
 #include <complex>
 #include <cmath>
 #include <utility>
-#include <iostream>
 #include "juliaset.hpp"
 #include "matrix.hpp"
 
-JuliaSet::JuliaSet() {
-  c = std::complex<double>(0.285, 0.01);
-  R = 2;
-  R2 = R * R;
+JuliaSet::JuliaSet(int width, int height, double real, double imag, double r, int maxIter) : width {width}, height {height} {
+  this->c = std::complex<double>(real, imag);
+  this->r = r;
+  this->r2 = r * r;
+  this->maxIter = maxIter;
 }
-
-// JuliaSet::JuliaSet(std::complex<double> c) : c {c}, R {std::abs(c)}, R2 {R*R} {
-//
-// }
-//
-// JuliaSet::JuliaSet(double real, double imag) : c {std::complex<double>(real, imag)}, R {std::abs(c)}, R2 {R*R} {
-//
-// }
 
 void JuliaSet::setC(double real, double imag) {
   c = std::complex<double>(real, imag);
+}
+
+void JuliaSet::setR(double value) {
+  r = value;
+  r2 = r * r;
 }
 
 void JuliaSet::setCReal(double value) {
@@ -32,28 +29,41 @@ void JuliaSet::setCImag(double value) {
 }
 
 inline double JuliaSet::scaleX(double x) {
-  return 2 * R * x / width - R;
+  return 2 * r * x / width - r;
 }
 
 inline double JuliaSet::scaleY(double y) {
-  return 2 * R * y / height - R;
+  return 2 * r * y / height - r;
 }
 
-double JuliaSet::pixelValue(int x, int y) {
+int JuliaSet::pixelValue(int x, int y) {
   double real = scaleX(x);
   double imag = scaleY(y);
   std::complex<double> z {real, imag};
 
   int i = 0;
-  while (std::norm(z) < R2 && i++ < maxIter) {
+  while (std::norm(z) < r2 && i++ < maxIter) {
     z = z * z + c;
   }
 
-  return static_cast<double>(i) / static_cast<double>(maxIter);
+  return i;
 }
 
-Matrix<double, JuliaSet::width, JuliaSet::height> JuliaSet::generate() {
-  Matrix<double, width, height> result;
+int JuliaSet::pixelValue(std::pair<int, int> coords) {
+  return pixelValue(coords.first, coords.second);
+}
+
+void JuliaSet::generate(Matrix<int>& result) {
+  for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+      std::pair<int, int> point {x, y};
+      result[point] = pixelValue(x, y);
+    }
+  }
+}
+
+Matrix<int> JuliaSet::generate() {
+  Matrix<int> result(width, height);
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       std::pair<int, int> point {x, y};

@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I. -I../../../anaconda3/include/qt -I../../../anaconda3/include/qt/QtWidgets -I../../../anaconda3/include/qt/QtGui -I../../../anaconda3/include/qt/QtCore -I. -I../../../anaconda3/mkspecs/linux-g++
+INCPATH       = -I. -I. -I../../../anaconda3/include/qt -I../../../anaconda3/include/qt/QtWidgets -I../../../anaconda3/include/qt/QtGui -I../../../anaconda3/include/qt/QtConcurrent -I../../../anaconda3/include/qt/QtCore -I. -I../../../anaconda3/mkspecs/linux-g++
 QMAKE         = /home/merthc/anaconda3/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = juliaset1.0.0
 DISTDIR = /home/merthc/Documents/Projects/juliaset/.tmp/juliaset1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/merthc/anaconda3/lib
-LIBS          = $(SUBLIBS) -L/home/merthc/anaconda3/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/home/merthc/anaconda3/lib -lQt5Widgets -lQt5Gui -lQt5Concurrent -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -431,6 +431,7 @@ Makefile: juliaset.pro ../../../anaconda3/mkspecs/linux-g++/qmake.conf ../../../
 		juliaset.pro \
 		../../../anaconda3/lib/libQt5Widgets.prl \
 		../../../anaconda3/lib/libQt5Gui.prl \
+		../../../anaconda3/lib/libQt5Concurrent.prl \
 		../../../anaconda3/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile juliaset.pro
 ../../../anaconda3/mkspecs/features/spec_pre.prf:
@@ -613,6 +614,7 @@ Makefile: juliaset.pro ../../../anaconda3/mkspecs/linux-g++/qmake.conf ../../../
 juliaset.pro:
 ../../../anaconda3/lib/libQt5Widgets.prl:
 ../../../anaconda3/lib/libQt5Gui.prl:
+../../../anaconda3/lib/libQt5Concurrent.prl:
 ../../../anaconda3/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile juliaset.pro
@@ -1120,7 +1122,7 @@ moc_canvas.cpp: ../../../anaconda3/include/qt/QtWidgets/QtWidgets \
 		canvas.hpp \
 		moc_predefs.h \
 		../../../anaconda3/bin/moc
-	/home/merthc/anaconda3/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/merthc/anaconda3/mkspecs/linux-g++ -I/home/merthc/Documents/Projects/juliaset -I/home/merthc/Documents/Projects/juliaset -I/home/merthc/anaconda3/include/qt -I/home/merthc/anaconda3/include/qt/QtWidgets -I/home/merthc/anaconda3/include/qt/QtGui -I/home/merthc/anaconda3/include/qt/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include canvas.hpp -o moc_canvas.cpp
+	/home/merthc/anaconda3/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/merthc/anaconda3/mkspecs/linux-g++ -I/home/merthc/Documents/Projects/juliaset -I/home/merthc/Documents/Projects/juliaset -I/home/merthc/anaconda3/include/qt -I/home/merthc/anaconda3/include/qt/QtWidgets -I/home/merthc/anaconda3/include/qt/QtGui -I/home/merthc/anaconda3/include/qt/QtConcurrent -I/home/merthc/anaconda3/include/qt/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include canvas.hpp -o moc_canvas.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1136,8 +1138,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-canvas.o: canvas.cpp ../../../anaconda3/include/qt/QtWidgets/QtWidgets \
-		../../../anaconda3/include/qt/QtWidgets/QtWidgetsDepends \
+canvas.o: canvas.cpp ../../../anaconda3/include/qt/QtConcurrent/QtConcurrent \
+		../../../anaconda3/include/qt/QtConcurrent/QtConcurrentDepends \
 		../../../anaconda3/include/qt/QtCore/QtCore \
 		../../../anaconda3/include/qt/QtCore/QtCoreDepends \
 		../../../anaconda3/include/qt/QtCore/qglobal.h \
@@ -1321,6 +1323,24 @@ canvas.o: canvas.cpp ../../../anaconda3/include/qt/QtWidgets/QtWidgets \
 		../../../anaconda3/include/qt/QtCore/qwineventnotifier.h \
 		../../../anaconda3/include/qt/QtCore/qxmlstream.h \
 		../../../anaconda3/include/qt/QtCore/qtcoreversion.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentcompilertest.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrent_global.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentexception.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentfilter.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentfilterkernel.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentiteratekernel.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentmedian.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentthreadengine.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentmapkernel.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentreducekernel.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentfunctionwrappers.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentmap.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentrun.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentrunbase.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentstoredfunctioncall.h \
+		../../../anaconda3/include/qt/QtConcurrent/qtconcurrentversion.h \
+		../../../anaconda3/include/qt/QtWidgets/QtWidgets \
+		../../../anaconda3/include/qt/QtWidgets/QtWidgetsDepends \
 		../../../anaconda3/include/qt/QtGui/QtGui \
 		../../../anaconda3/include/qt/QtGui/QtGuiDepends \
 		../../../anaconda3/include/qt/QtGui/qtguiglobal.h \
@@ -1592,7 +1612,6 @@ canvas.o: canvas.cpp ../../../anaconda3/include/qt/QtWidgets/QtWidgets \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o canvas.o canvas.cpp
 
 juliaset.o: juliaset.cpp juliaset.hpp \
-		params.hpp \
 		matrix.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o juliaset.o juliaset.cpp
 
