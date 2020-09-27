@@ -4,7 +4,6 @@
 #include <QPainter>
 #include <utility>
 #include "params.hpp"
-#include "matrix.hpp"
 #include "juliaset.hpp"
 
 static const int TICK_INTERVAL = 1;

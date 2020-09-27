@@ -1,10 +1,8 @@
 #include <QtConcurrent>
 #include <QtWidgets>
 #include <QPainter>
-#include <iostream>
 #include <functional>
 #include "canvas.hpp"
-#include "matrix.hpp"
 
 Canvas::Canvas()
   : js {CANVAS_WIDTH, CANVAS_HEIGHT, C_REAL_INIT, C_IMAG_INIT, MAX_ITER_INIT},
