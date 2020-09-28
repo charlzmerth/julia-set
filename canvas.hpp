@@ -5,13 +5,7 @@
 #include <utility>
 #include "params.hpp"
 #include "juliaset.hpp"
-
-static const int TICK_INTERVAL = 1;
-static const int TICK_START = 0;
-static const int TICK_END = 100;
-static const double C_TICK_DIV = 100.0;
-static const double R_TICK_DIV = 10.0;
-static const int MAX_ITER_SCALE = 10;
+#include "rangeslider.hpp"
 
 class Canvas : public QWidget {
   Q_OBJECT
@@ -25,12 +19,14 @@ private:
 public:
   Canvas();
   QRgb pixelValue(std::pair<int, int>);
+  QSize sizeHint() const override;
+  void renderPixels();
+
+public slots:
   void rChanged(double value);
   void cRealChanged(double value);
   void cImagChanged(double value);
   void maxIterChanged(int value);
-  QSize sizeHint() const override;
-  void renderPixels();
 
 protected:
   void paintEvent(QPaintEvent *event) override;
@@ -40,10 +36,10 @@ class Window : public QWidget {
   Q_OBJECT
 
 private:
-  QSlider *realSlider;
-  QSlider *imagSlider;
-  QSlider *rSlider;
-  QSlider *maxIterSlider;
+  RangeSlider *realSlider;
+  RangeSlider *imagSlider;
+  RangeSlider *rSlider;
+  RangeSlider *maxIterSlider;
   QHBoxLayout *mainLayout;
   Canvas *canvas;
 

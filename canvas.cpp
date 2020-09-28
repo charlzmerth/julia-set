@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <functional>
 #include "canvas.hpp"
+#include "rangeslider.hpp"
 
 Canvas::Canvas()
   : js {CANVAS_WIDTH, CANVAS_HEIGHT, C_REAL_INIT, C_IMAG_INIT, MAX_ITER_INIT},
@@ -47,55 +48,40 @@ QRgb Canvas::pixelValue(std::pair<int, int> coords) {
 }
 
 void Canvas::cRealChanged(double value) {
-  js.setCReal(value / C_TICK_DIV);
+  js.setCReal(value);
   renderPixels();
   update();
 }
 
 void Canvas::cImagChanged(double value) {
-  js.setCImag(value / C_TICK_DIV);
+  js.setCImag(value);
   renderPixels();
   update();
 }
 
 void Canvas::rChanged(double value) {
-  js.setR(value / R_TICK_DIV);
+  js.setR(value);
   renderPixels();
   update();
 }
 
 void Canvas::maxIterChanged(int value) {
-  js.maxIter = value * MAX_ITER_SCALE;
+  js.maxIter = value;
   renderPixels();
   update();
 }
 
 Window::Window() {
-  rSlider = new QSlider;
-  rSlider->setMinimum(TICK_START);
-  rSlider->setMaximum(TICK_END);
-  rSlider->setValue(R_INIT * R_TICK_DIV);
-
-  maxIterSlider = new QSlider;
-  maxIterSlider->setMinimum(TICK_START);
-  maxIterSlider->setMaximum(TICK_END);
-  maxIterSlider->setValue(MAX_ITER_INIT / MAX_ITER_SCALE);
-
-  realSlider = new QSlider;
-  realSlider->setMinimum(TICK_START);
-  realSlider->setMaximum(TICK_END);
-  realSlider->setValue(C_REAL_INIT * C_TICK_DIV);
-
-  imagSlider = new QSlider;
-  imagSlider->setMinimum(TICK_START);
-  imagSlider->setMaximum(TICK_END);
-  imagSlider->setValue(C_IMAG_INIT * C_TICK_DIV);
+  rSlider = new RangeSlider(R_MIN, R_MAX, R_INTERVAL, R_INIT);
+  maxIterSlider = new RangeSlider(MAX_ITER_MIN, MAX_ITER_MAX, MAX_ITER_INTERVAL, MAX_ITER_INIT);
+  realSlider = new RangeSlider(C_MIN, C_MAX, C_INTERVAL, C_REAL_INIT);
+  imagSlider = new RangeSlider(C_MIN, C_MAX, C_INTERVAL, C_IMAG_INIT);
 
   canvas = new Canvas;
-  connect(rSlider, &QSlider::valueChanged, canvas, &Canvas::rChanged);
-  connect(maxIterSlider, &QSlider::valueChanged, canvas, &Canvas::maxIterChanged);
-  connect(realSlider, &QSlider::valueChanged, canvas, &Canvas::cRealChanged);
-  connect(imagSlider, &QSlider::valueChanged, canvas, &Canvas::cImagChanged);
+  connect(rSlider, &RangeSlider::valueChanged, canvas, &Canvas::rChanged);
+  connect(maxIterSlider, &RangeSlider::valueChanged, canvas, &Canvas::maxIterChanged);
+  connect(realSlider, &RangeSlider::valueChanged, canvas, &Canvas::cRealChanged);
+  connect(imagSlider, &RangeSlider::valueChanged, canvas, &Canvas::cImagChanged);
 
   mainLayout = new QHBoxLayout;
   mainLayout->addWidget(maxIterSlider);

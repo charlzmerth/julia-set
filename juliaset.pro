@@ -20,5 +20,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += canvas.hpp juliaset.hpp matrix.hpp params.hpp
-SOURCES += canvas.cpp juliaset.cpp main.cpp
+HEADERS += canvas.hpp rangeslider.hpp juliaset.hpp matrix.hpp params.hpp
+SOURCES += canvas.cpp rangeslider.cpp juliaset.cpp main.cpp
