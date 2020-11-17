@@ -7,3 +7,6 @@ Interactive Julia Set viewer, now with multithreading!
 3. Run `qmake`, followed by `make`
 4. Launch julia-set (type `./juliaset`)
 5. Enjoy!
+
+## Screenshots
+![Fractal Example](./example.png)
