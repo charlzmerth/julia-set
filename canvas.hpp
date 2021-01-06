@@ -13,7 +13,7 @@ class Canvas : public QWidget {
 private:
   JuliaSet js;
   QVector<QRgb> pixels;
-  QImage image;
+  QOpenGLPaintDevice viewer;
   QVector<std::pair<int, int>> templatePixels;
 
 public:

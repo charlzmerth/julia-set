@@ -1,4 +1,5 @@
 #include <QtConcurrent>
+#include <QOpenGLPaintDevice>
 #include <QtWidgets>
 #include <QPainter>
 #include <functional>
@@ -7,8 +8,8 @@
 
 Canvas::Canvas()
   : js {CANVAS_WIDTH, CANVAS_HEIGHT, C_REAL_INIT, C_IMAG_INIT, MAX_ITER_INIT},
-    pixels {NUM_PIXELS},
-    image {},
+    pixels (NUM_PIXELS),
+    viewer {CANVAS_WIDTH, CANVAS_HEIGHT},
     templatePixels {} {
 
   // Insert "ascending" pairs into templatePixels
